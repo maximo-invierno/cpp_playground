@@ -1,0 +1,63 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 22,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base_gcc",
+            "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
+            "hidden": true, 
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+            }
+        },
+        {
+            "name": "gcc_debug",
+            "displayName": "gcc [Debug]",
+            "inherits": [ "base_gcc" ],
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "gcc_release",
+            "displayName": "gcc [Release]",
+            "inherits": [ "base_gcc" ],
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+      {
+        "name": "gcc [Debug]",
+        "configurePreset": "gcc_debug"
+      },
+      {
+        "name": "gcc [Release]",
+        "configurePreset": "gcc_release"
+      }
+    ],
+    "testPresets": [
+        {
+          "name": "gcc [Debug]",
+          "configurePreset": "gcc_debug",
+          "output": {"outputOnFailure": true, "verbosity": "verbose"},
+          "execution": {"noTestsAction": "error", "stopOnFailure": true}
+        },
+        {
+            "name": "gcc [Release]",
+            "configurePreset": "gcc_release",
+            "output": {"outputOnFailure": true, "verbosity": "verbose"},
+            "execution": {"noTestsAction": "error", "stopOnFailure": true}
+        }
+    ]
+}
